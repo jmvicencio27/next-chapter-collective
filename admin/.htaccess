@@ -1,0 +1,9 @@
+DirectoryIndex index.php
+Options -Indexes
+<FilesMatch "^(core|install-key)\.php$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Cache-Control "no-store"
+</IfModule>
