@@ -1,0 +1,9 @@
+# Private server configuration and CMS data
+admin/install-key.php
+admin/private/*
+!admin/private/.htaccess
+settings.php
+assets/uploads/*
+!assets/uploads/.htaccess
+*.zip
+.DS_Store
