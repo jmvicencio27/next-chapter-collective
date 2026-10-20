@@ -58,8 +58,9 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let currentHeroSlide = 0;
 let heroTimer;
 let heroPaused = reducedMotion.matches;
-let heroHovered = false;
-const canRotateHero = () => hero && !heroPaused && !heroHovered && !document.hidden && !hero.contains(document.activeElement);
+// Keep rotating under the pointer and after mouse/touch slide selection.
+// Pause for keyboard focus so a focused call-to-action never changes destination.
+const canRotateHero = () => hero && !heroPaused && !document.hidden && !(hero.contains(document.activeElement) && document.activeElement.matches(':focus-visible'));
 function scheduleHero() {
   clearTimeout(heroTimer);
   if (!canRotateHero()) return;
@@ -100,8 +101,6 @@ if (hero) {
     heroPaused = !heroPaused;
     updateHeroPlayback();
   });
-  hero.addEventListener('mouseenter', () => { heroHovered = true; scheduleHero(); });
-  hero.addEventListener('mouseleave', () => { heroHovered = false; scheduleHero(); });
   hero.addEventListener('focusin', scheduleHero);
   hero.addEventListener('focusout', () => setTimeout(scheduleHero, 0));
   document.addEventListener('visibilitychange', scheduleHero);
